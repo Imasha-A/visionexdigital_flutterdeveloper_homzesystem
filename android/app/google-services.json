@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "190920999064",
+    "project_id": "visionex-digital---flutter",
+    "storage_bucket": "visionex-digital---flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190920999064:android:c0bb99ebec51b124ea50ed",
+        "android_client_info": {
+          "package_name": "com.example.visionexdigital_flutterdeveloper_homzesystem"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBopoeptx9MdaZodQNw9c_ONAUXE1GEWjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
