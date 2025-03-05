@@ -65,39 +65,53 @@ class SearchCatalog1Screen extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: screenWidth * 0.41),
+                              SizedBox(width: screenWidth * 0.43),
                               Text(
                                 'Hi, Stanislav',
                                 style: TextStyle(
                                   fontSize: screenWidth * 0.04,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.black87,
+                                  color: Color(0xFF282828),
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: screenWidth * 0.05),
-                                child: CircleAvatar(
-                                  radius: screenWidth * 0.05,
-                                  backgroundColor: Colors.grey.shade300,
-                                  child: Text(
-                                    'S',
-                                    style: TextStyle(
-                                      fontSize: screenWidth * 0.045,
-                                      color: Colors.black,
+                              SizedBox(width: screenWidth * 0.03),
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  CircleAvatar(
+                                    radius: screenWidth * 0.05,
+                                    backgroundColor: Color(0xFFA9A9A9),
+                                    child: Text(
+                                      'S',
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.045,
+                                        color: Color(0xFF282828),
+                                      ),
                                     ),
                                   ),
-                                ),
+                                  Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Container(
+                                      width: screenWidth * 0.03,
+                                      height: screenWidth * 0.03,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFDE5D83),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
                         Positioned(
-                          bottom: screenHeight * 0.048,
+                          bottom: screenHeight * 0.038,
                           left: screenWidth * 0.04,
                           right: screenWidth * 0.04,
                           child: Container(
-                            height: screenHeight * 0.064,
+                            height: screenHeight * 0.055,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius:
@@ -116,7 +130,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                                 ),
                                 border: InputBorder.none,
                                 contentPadding:
-                                    EdgeInsets.only(top: screenHeight * 0.014),
+                                    EdgeInsets.only(top: screenHeight * 0.016),
                               ),
                             ),
                           ),
@@ -186,7 +200,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                       },
                     ),
                   ),
-                  SizedBox(height: screenHeight * 0.023),
+                  SizedBox(height: screenHeight * 0.01),
                   Padding(
                     padding:
                         EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
@@ -196,7 +210,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                         Text(
                           'New offers',
                           style: TextStyle(
-                            fontSize: screenWidth * 0.043,
+                            fontSize: screenWidth * 0.044,
                             fontWeight: FontWeight.w800,
                             color: const Color(0xFF282828),
                           ),
@@ -240,11 +254,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                   SizedBox(height: screenHeight * 0.01),
                   Column(
                     children: List.generate(newOffers.length, (index) {
-                      return _buildNewOfferCard(
-                        context,
-                        newOffers[index],
-                        screenWidth,
-                      );
+                      return _buildNewOfferCard(context, newOffers[index]);
                     }),
                   ),
                   SizedBox(height: screenHeight * 0.023),
@@ -277,6 +287,24 @@ class SearchCatalog1Screen extends StatelessWidget {
                   width: screenWidth * 0.4,
                   height: screenHeight * 0.17,
                   fit: BoxFit.fill,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null)
+                      return child; 
+                    return Container(
+                      width: screenWidth * 0.4,
+                      height: screenHeight * 0.17,
+                      color: Colors
+                          .white, 
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null, 
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               Positioned(
@@ -294,7 +322,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                   child: Text(
                     '\$${property.price.toStringAsFixed(0)}',
                     style: TextStyle(
-                      color: Colors.black,
+                      color: Color(0xFF282828),
                       fontWeight: FontWeight.bold,
                       fontSize: screenWidth * 0.035,
                     ),
@@ -324,10 +352,10 @@ class SearchCatalog1Screen extends StatelessWidget {
     );
   }
 
-  Widget _buildNewOfferCard(
-      BuildContext context, PropertyModel property, double screenWidth) {
+  Widget _buildNewOfferCard(BuildContext context, PropertyModel property) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    double cardWidth = screenWidth * 0.9;
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.04,
@@ -342,9 +370,28 @@ class SearchCatalog1Screen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(screenWidth * 0.0625),
                 child: Image.network(
                   property.imageUrl,
-                  width: cardWidth,
-                  height: cardWidth * 0.55,
+                  width: screenWidth * 0.9,
+                  height: screenHeight * 0.26,
                   fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) {
+                      return child;
+                    }
+
+                    return Container(
+                      width: screenWidth * 0.9,
+                      height: screenHeight * 0.26,
+                      color: Colors.white,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               Positioned(
@@ -369,14 +416,14 @@ class SearchCatalog1Screen extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: screenHeight * 0.017,
-                right: screenWidth * 0.03,
+                top: screenHeight * 0.018,
+                right: screenWidth * 0.04,
                 child: Container(
                   padding: EdgeInsets.all(screenWidth * 0.015),
                   child: SvgPicture.asset(
                     'assets/heart_24.svg',
                     width: screenWidth * 0.05,
-                    height: screenWidth * 0.05,
+                    height: screenHeight * 0.025,
                     colorFilter: const ColorFilter.mode(
                       Color.fromARGB(255, 255, 255, 255),
                       BlendMode.srcIn,
@@ -429,6 +476,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                       style: TextStyle(
                         fontSize: screenWidth * 0.035,
                         fontWeight: FontWeight.bold,
+                        color: Color(0xFF282828),
                       ),
                     ),
                     SizedBox(width: screenWidth * 0.015),
@@ -436,7 +484,7 @@ class SearchCatalog1Screen extends StatelessWidget {
                       '(29 Reviews)',
                       style: TextStyle(
                         fontSize: screenWidth * 0.03,
-                        color: Colors.grey[600],
+                        color: Color(0xFF7E7E7E),
                       ),
                     ),
                   ],

@@ -9,13 +9,13 @@ class PropertyRepository {
 
   Future<List<PropertyModel>> fetchProperties() async {
     try {
-      final querySnapshot = await firestore.collection('Listings').get();
-      print('Repository: Retrieved ${querySnapshot.docs.length} documents');
+      final querySnapshot =
+          await firestore.collection('Listings').orderBy('price').get();
+
       return querySnapshot.docs.map((doc) {
         return PropertyModel.fromFirestore(doc.data(), doc.id);
       }).toList();
     } catch (e) {
-      print('Repository: Error - $e');
       rethrow;
     }
   }
