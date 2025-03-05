@@ -6,14 +6,35 @@ import 'package:visionexdigital_flutterdeveloper_homzesystem/Models/property_mod
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_cubit.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_state.dart';
 
-class SearchCatalog3Screen extends StatelessWidget {
+class SearchCatalog3Screen extends StatefulWidget {
   const SearchCatalog3Screen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-    return Scaffold(
+  _SearchCatalog3ScreenState createState() => _SearchCatalog3ScreenState();
+}
+
+class _SearchCatalog3ScreenState extends State<SearchCatalog3Screen> {
+  TextEditingController _searchController = TextEditingController();
+
+
+
+  @override
+  void dispose() {
+    _searchController.clear();
+    super.dispose();
+  }
+
+  @override
+Widget build(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
+  return WillPopScope(
+    onWillPop: () async {
+      _searchController.clear();
+      return true; 
+    },
+    child: Scaffold(
       body: SafeArea(
         child: Column(
           children: [
@@ -63,6 +84,10 @@ class SearchCatalog3Screen extends StatelessWidget {
                             BorderRadius.circular(screenWidth * 0.075),
                       ),
                       child: TextField(
+                        controller: _searchController,
+                        onChanged: (value) {
+                          context.read<PropertyCubit>().filterProperties(value);
+                        },
                         decoration: InputDecoration(
                           hintText: 'Search',
                           hintStyle: GoogleFonts.robotoFlex(
@@ -136,7 +161,7 @@ class SearchCatalog3Screen extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      ),),
     );
   }
 }
