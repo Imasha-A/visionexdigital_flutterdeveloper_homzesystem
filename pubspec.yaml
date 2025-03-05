@@ -14,6 +14,8 @@ dependencies:
   cloud_firestore: ^5.6.5
   bloc: ^9.0.0
   flutter_bloc: ^9.1.0
+  flutter_svg: ^2.0.17
+  google_fonts: ^6.2.1
   
 
 dev_dependencies:
@@ -23,5 +25,14 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+     - assets/welcome_background.png
+     - assets/sell_home_24.svg
+     - assets/menu_24.svg
+     - assets/buy_home_24.svg
+     - assets/rent_home_24.svg
+     - assets/search_24.svg
+     - assets/heart_24.svg
+     - assets/star_24.svg
 
-
+ 
