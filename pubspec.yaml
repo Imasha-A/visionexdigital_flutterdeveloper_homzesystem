@@ -16,12 +16,18 @@ dependencies:
   flutter_bloc: ^9.1.0
   flutter_svg: ^2.0.17
   google_fonts: ^6.2.1
+  flutter_launcher_icons: ^0.14.3
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/homzes_logo.png"
 
 flutter:
   uses-material-design: true
@@ -34,5 +40,8 @@ flutter:
      - assets/search_24.svg
      - assets/heart_24.svg
      - assets/star_24.svg
+     - assets/homzes.svg
+     
 
+ 
  

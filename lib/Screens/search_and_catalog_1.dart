@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Models/property_model.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Screens/search_and_catalog_3.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_cubit.dart';
-import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_state.dart';
+import 'package:visionexdigital_flutterdeveloper_homzesystem/States/property_state.dart';
 
 class SearchCatalog1Screen extends StatefulWidget {
   const SearchCatalog1Screen({Key? key}) : super(key: key);
@@ -16,6 +16,8 @@ class SearchCatalog1Screen extends StatefulWidget {
 
 class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
   TextEditingController _searchController = TextEditingController();
+  String username = "Stanislav";
+
   @override
   void dispose() {
     _searchController.clear();
@@ -30,7 +32,7 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
     return WillPopScope(
       onWillPop: () async {
         _searchController.clear();
-        return true; 
+        return true;
       },
       child: Scaffold(
         body: BlocBuilder<PropertyCubit, PropertyState>(
@@ -67,7 +69,6 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                           ),
                           Positioned(
                             top: screenHeight * 0.07,
-                            left: 0,
                             child: Row(
                               children: [
                                 IconButton(
@@ -87,7 +88,7 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                                 ),
                                 SizedBox(width: screenWidth * 0.43),
                                 Text(
-                                  'Hi, Stanislav',
+                                  'Hi, $username',
                                   style: GoogleFonts.robotoFlex(
                                     textStyle: TextStyle(
                                       fontSize: screenWidth * 0.04,
@@ -104,7 +105,7 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                                       radius: screenWidth * 0.05,
                                       backgroundColor: Color(0xFFA9A9A9),
                                       child: Text(
-                                        'S',
+                                        username[0],
                                         style: GoogleFonts.robotoFlex(
                                           textStyle: TextStyle(
                                             fontSize: screenWidth * 0.045,
@@ -175,18 +176,18 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                     ),
                     Row(
                       children: [
-                        SizedBox(width: screenWidth * 0.03),
+                        SizedBox(width: screenWidth * 0.035),
                         Text(
                           'Featured',
                           style: GoogleFonts.robotoFlex(
                             textStyle: TextStyle(
-                              fontSize: screenWidth * 0.043,
+                              fontSize: screenWidth * 0.045,
                               fontWeight: FontWeight.w800,
                               color: const Color(0xFF282828),
                             ),
                           ),
                         ),
-                        SizedBox(width: screenWidth * 0.57),
+                        SizedBox(width: screenWidth * 0.56),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
@@ -231,18 +232,15 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                         scrollDirection: Axis.horizontal,
                         itemCount: featured.length,
                         itemBuilder: (context, index) {
-                          return _buildFeaturedCard(
-                            context,
-                            featured[index],
-                            screenWidth,
-                          );
+                          return _buildFeaturedCard(context, featured[index],
+                              screenWidth, screenHeight);
                         },
                       ),
                     ),
                     SizedBox(height: screenHeight * 0.01),
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+                          EdgeInsets.symmetric(horizontal: screenWidth * 0.043),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -250,7 +248,7 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                             'New offers',
                             style: GoogleFonts.robotoFlex(
                               textStyle: TextStyle(
-                                fontSize: screenWidth * 0.044,
+                                fontSize: screenWidth * 0.045,
                                 fontWeight: FontWeight.w800,
                                 color: const Color(0xFF282828),
                               ),
@@ -297,7 +295,8 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
                     SizedBox(height: screenHeight * 0.01),
                     Column(
                       children: List.generate(newOffers.length, (index) {
-                        return _buildNewOfferCard(context, newOffers[index]);
+                        return _buildNewOfferCard(context, newOffers[index],
+                            screenWidth, screenHeight);
                       }),
                     ),
                     SizedBox(height: screenHeight * 0.023),
@@ -323,9 +322,8 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
     );
   }
 
-  Widget _buildFeaturedCard(
-      BuildContext context, PropertyModel property, double screenWidth) {
-    final screenHeight = MediaQuery.of(context).size.height;
+  Widget _buildFeaturedCard(BuildContext context, PropertyModel property,
+      double screenWidth, double screenHeight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -407,10 +405,8 @@ class _SearchCatalog1ScreenState extends State<SearchCatalog1Screen> {
     );
   }
 
-  Widget _buildNewOfferCard(BuildContext context, PropertyModel property) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
+  Widget _buildNewOfferCard(BuildContext context, PropertyModel property,
+      double screenWidth, double screenHeight) {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: screenWidth * 0.04,

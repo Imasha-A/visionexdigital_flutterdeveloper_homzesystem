@@ -20,9 +20,6 @@ class WelcomeScreen extends StatelessWidget {
               fit: BoxFit.fill,
             ),
           ),
-          Container(
-            color: Colors.black.withOpacity(0.3),
-          ),
           SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
@@ -34,13 +31,10 @@ class WelcomeScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        "Homzes",
-                        style: GoogleFonts.robotoFlex(
-                          color: Colors.white,
-                          fontSize: screenWidth * 0.065,
-                          fontWeight: FontWeight.w700,
-                        ),
+                      SvgPicture.asset(
+                        'assets/homzes.svg',
+                        width: screenWidth * 0.065,
+                        height: screenWidth * 0.055,
                       ),
                       IconButton(
                         onPressed: () {},
@@ -86,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
                         _buildOptionCard('assets/buy_home_24.svg', "Buy",
                             const Color(0xFFF0F298), screenWidth, screenHeight),
                         SizedBox(width: screenWidth * 0.03),
-                        _buildOptionCard('assets/sell_home_24.svg', "Sell",
+                        _buildOptionCard('assets/sell_home_24.svg', "Sale",
                             const Color(0xFFC6E7BE), screenWidth, screenHeight),
                       ],
                     ),
@@ -142,7 +136,7 @@ class WelcomeScreen extends StatelessWidget {
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start, 
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             padding: EdgeInsets.all(screenWidth * 0.037),
@@ -154,12 +148,11 @@ class WelcomeScreen extends StatelessWidget {
               svgAsset,
               width: screenWidth * 0.055,
               height: screenWidth * 0.055,
-              color: Colors.black,
             ),
           ),
-          SizedBox(height: screenHeight * 0.06), 
+          SizedBox(height: screenHeight * 0.06),
           Align(
-            alignment: Alignment.bottomLeft, 
+            alignment: Alignment.bottomLeft,
             child: Text(
               title,
               style: GoogleFonts.robotoFlex(

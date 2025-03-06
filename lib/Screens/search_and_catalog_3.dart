@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Models/property_model.dart';
 import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_cubit.dart';
-import 'package:visionexdigital_flutterdeveloper_homzesystem/Cubits/property_state.dart';
+import 'package:visionexdigital_flutterdeveloper_homzesystem/States/property_state.dart';
 
 class SearchCatalog3Screen extends StatefulWidget {
   const SearchCatalog3Screen({Key? key}) : super(key: key);
@@ -16,8 +16,6 @@ class SearchCatalog3Screen extends StatefulWidget {
 class _SearchCatalog3ScreenState extends State<SearchCatalog3Screen> {
   TextEditingController _searchController = TextEditingController();
 
-
-
   @override
   void dispose() {
     _searchController.clear();
@@ -25,143 +23,146 @@ class _SearchCatalog3ScreenState extends State<SearchCatalog3Screen> {
   }
 
   @override
-Widget build(BuildContext context) {
-  final screenWidth = MediaQuery.of(context).size.width;
-  final screenHeight = MediaQuery.of(context).size.height;
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
 
-  return WillPopScope(
-    onWillPop: () async {
-      _searchController.clear();
-      return true; 
-    },
-    child: Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Container(
-              padding: EdgeInsets.fromLTRB(
-                screenWidth * 0.035,
-                screenHeight * 0.037,
-                screenWidth * 0.035,
-                screenHeight * 0.015,
-              ),
-              decoration: BoxDecoration(
-                color: Color(0xFFC6E7BE),
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(screenWidth * 0.08),
-                  bottomRight: Radius.circular(screenWidth * 0.08),
+    return WillPopScope(
+      onWillPop: () async {
+        _searchController.clear();
+        return true;
+      },
+      child: Scaffold(
+        body: SafeArea(
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.fromLTRB(
+                  screenWidth * 0.035,
+                  screenHeight * 0.037,
+                  screenWidth * 0.035,
+                  screenHeight * 0.015,
                 ),
-              ),
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Container(
-                      padding: EdgeInsets.all(screenWidth * 0.03),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFF282828),
-                        border: Border.all(
+                decoration: BoxDecoration(
+                  color: Color(0xFFC6E7BE),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(screenWidth * 0.08),
+                    bottomRight: Radius.circular(screenWidth * 0.08),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: Container(
+                        padding: EdgeInsets.all(screenWidth * 0.03),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
                           color: Color(0xFF282828),
-                          width: screenWidth * 0.004,
+                          border: Border.all(
+                            color: Color(0xFF282828),
+                            width: screenWidth * 0.004,
+                          ),
+                        ),
+                        child: SvgPicture.asset(
+                          'assets/menu_24.svg',
+                          width: screenWidth * 0.055,
+                          height: screenWidth * 0.055,
+                          colorFilter: const ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn),
                         ),
                       ),
-                      child: SvgPicture.asset(
-                        'assets/menu_24.svg',
-                        width: screenWidth * 0.055,
-                        height: screenWidth * 0.055,
-                        colorFilter: const ColorFilter.mode(
-                            Colors.white, BlendMode.srcIn),
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: screenHeight * 0.055,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(screenWidth * 0.075),
+                        ),
+                        child: TextField(
+                          controller: _searchController,
+                          onChanged: (value) {
+                            context
+                                .read<PropertyCubit>()
+                                .filterProperties(value);
+                          },
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            hintStyle: GoogleFonts.robotoFlex(
+                              textStyle: TextStyle(
+                                fontSize: screenWidth * 0.04,
+                              ),
+                            ),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.all(screenWidth * 0.03),
+                              child: SvgPicture.asset(
+                                'assets/search_24.svg',
+                                width: screenWidth * 0.055,
+                                height: screenWidth * 0.055,
+                              ),
+                            ),
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.only(top: screenHeight * 0.016),
+                          ),
+                        ),
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenWidth * 0.02,
+                    vertical: screenHeight * 0.014),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Popular rent offers',
+                    style: GoogleFonts.robotoFlex(
+                      textStyle: TextStyle(
+                          fontSize: screenWidth * 0.045,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF282828)),
+                    ),
                   ),
-                  Expanded(
-                    child: Container(
-                      height: screenHeight * 0.055,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius:
-                            BorderRadius.circular(screenWidth * 0.075),
-                      ),
-                      child: TextField(
-                        controller: _searchController,
-                        onChanged: (value) {
-                          context.read<PropertyCubit>().filterProperties(value);
+                ),
+              ),
+              Expanded(
+                child: BlocBuilder<PropertyCubit, PropertyState>(
+                  builder: (context, state) {
+                    if (state is PropertyLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is PropertyLoaded) {
+                      final properties = state.properties;
+                      return ListView.builder(
+                        itemCount: properties.length,
+                        itemBuilder: (context, index) {
+                          return PropertyListItem(property: properties[index]);
                         },
-                        decoration: InputDecoration(
-                          hintText: 'Search',
-                          hintStyle: GoogleFonts.robotoFlex(
-                            textStyle: TextStyle(
-                              fontSize: screenWidth * 0.04,
-                            ),
+                      );
+                    } else if (state is PropertyError) {
+                      return Center(
+                          child: Text(
+                        'Error: ${state.message}',
+                        style: GoogleFonts.robotoFlex(
+                          textStyle: TextStyle(
+                            fontSize: screenWidth * 0.04,
+                            color: Color(0xFF282828),
                           ),
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.all(screenWidth * 0.03),
-                            child: SvgPicture.asset(
-                              'assets/search_24.svg',
-                              width: screenWidth * 0.055,
-                              height: screenWidth * 0.055,
-                            ),
-                          ),
-                          border: InputBorder.none,
-                          contentPadding:
-                              EdgeInsets.only(top: screenHeight * 0.016),
                         ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                  horizontal: screenWidth * 0.02,
-                  vertical: screenHeight * 0.014),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  'Popular rent offers',
-                  style: GoogleFonts.robotoFlex(
-                    textStyle: TextStyle(
-                        fontSize: screenWidth * 0.045,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF282828)),
-                  ),
+                      ));
+                    }
+                    return const SizedBox.shrink();
+                  },
                 ),
               ),
-            ),
-            Expanded(
-              child: BlocBuilder<PropertyCubit, PropertyState>(
-                builder: (context, state) {
-                  if (state is PropertyLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is PropertyLoaded) {
-                    final properties = state.properties;
-                    return ListView.builder(
-                      itemCount: properties.length,
-                      itemBuilder: (context, index) {
-                        return PropertyListItem(property: properties[index]);
-                      },
-                    );
-                  } else if (state is PropertyError) {
-                    return Center(
-                        child: Text(
-                      'Error: ${state.message}',
-                      style: GoogleFonts.robotoFlex(
-                        textStyle: TextStyle(
-                          fontSize: screenWidth * 0.04,
-                          color: Color(0xFF282828),
-                        ),
-                      ),
-                    ));
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),),
+      ),
     );
   }
 }
@@ -280,9 +281,9 @@ class PropertyListItem extends StatelessWidget {
                         property.title,
                         style: GoogleFonts.robotoFlex(
                           textStyle: TextStyle(
-                            fontSize: screenWidth * 0.038,
-                            fontWeight: FontWeight.bold,
-                          ),
+                              fontSize: screenWidth * 0.038,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF282828)),
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
